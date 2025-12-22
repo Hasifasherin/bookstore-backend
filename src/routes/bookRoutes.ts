@@ -3,25 +3,40 @@ import {
   createBook,
   getAllBooks,
   getBookById,
+  updateBook,
+  deleteBook,
 } from "../controllers/bookController";
 import { protect, adminOrSeller } from "../middleware/auth";
 import { upload } from "../middleware/upload";
 
 const router = Router();
 
-//  get all books (for homepage)
+// PUBLIC
 router.get("/", getAllBooks);
-
-// get single book (details page)
 router.get("/:id", getBookById);
 
-// create book
+// ADMIN / SELLER
 router.post(
   "/",
   protect,
   adminOrSeller,
   upload.single("coverImage"),
   createBook
+);
+
+router.put(
+  "/:id",
+  protect,
+  adminOrSeller,
+  upload.single("coverImage"),
+  updateBook
+);
+
+router.delete(
+  "/:id",
+  protect,
+  adminOrSeller,
+  deleteBook
 );
 
 export default router;

@@ -27,7 +27,7 @@ export const protect = (
   }
 };
 
-// ✅ ADMIN ONLY
+//  ADMIN ONLY
 export const adminOnly = (
   req: Request,
   res: Response,
@@ -39,7 +39,7 @@ export const adminOnly = (
   next();
 };
 
-// ✅ ADMIN OR SELLER
+//  ADMIN OR SELLER
 export const adminOrSeller = (
   req: Request,
   res: Response,
