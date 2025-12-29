@@ -63,3 +63,62 @@ export const addBookReview = async (req: Request, res: Response) => {
   }
 };
 
+/* ================= UPDATE REVIEW ================= */
+export const updateBookReview = async (req: Request, res: Response) => {
+  try {
+    if (req.user?.role !== "buyer") {
+      return res.status(403).json({ message: "Only buyers can edit reviews" });
+    }
+
+    const { reviewId } = req.params;
+    const { rating, comment } = req.body;
+
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    // ownership check
+    if (review.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not allowed to edit this review" });
+    }
+
+    review.rating = rating ?? review.rating;
+    review.comment = comment ?? review.comment;
+
+    await review.save();
+
+    res.json(review);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update review" });
+  }
+};
+
+/* ================= DELETE REVIEW ================= */
+export const deleteBookReview = async (req: Request, res: Response) => {
+  try {
+    if (req.user?.role !== "buyer") {
+      return res.status(403).json({ message: "Only buyers can delete reviews" });
+    }
+
+    const { reviewId } = req.params;
+
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    // ownership check
+    if (review.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not allowed to delete this review" });
+    }
+
+    await review.deleteOne();
+
+    res.json({ message: "Review deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete review" });
+  }
+};
