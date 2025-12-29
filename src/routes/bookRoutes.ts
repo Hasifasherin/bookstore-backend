@@ -8,12 +8,16 @@ import {
 } from "../controllers/bookController";
 import { protect, adminOrSeller } from "../middleware/auth";
 import { upload } from "../middleware/upload";
-
+import { getBookReviews , addBookReview } from "../controllers/reviewController";
 const router = Router();
 
 // PUBLIC
 router.get("/", getAllBooks);
 router.get("/:id", getBookById);
+
+// reviews
+router.get("/:bookId/reviews", getBookReviews);
+router.post("/:bookId/reviews", protect, addBookReview);
 
 // ADMIN / SELLER
 router.post(
@@ -38,5 +42,6 @@ router.delete(
   adminOrSeller,
   deleteBook
 );
+
 
 export default router;

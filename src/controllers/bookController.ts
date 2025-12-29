@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Book from "../models/Book";
-
 // CREATE
 export const createBook = async (req: Request, res: Response) => {
   try {
@@ -15,11 +14,11 @@ export const createBook = async (req: Request, res: Response) => {
     const book = await Book.create({
       title: req.body.title,
       authorName: req.body.authorName,
-      categoryId: req.body.categoryId, // ✅ REQUIRED
+      categoryId: req.body.categoryId,
       price: req.body.price,
       discount: req.body.discount || 0,
       coverImage: req.file.path,
-      createdBy: req.user!.id, // ✅ REQUIRED
+      createdBy: req.user!.id, 
     });
 
     res.status(201).json(book);
