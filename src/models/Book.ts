@@ -5,7 +5,7 @@ const bookSchema = new Schema(
     title: { type: String, required: true },
     authorName: { type: String, required: true },
 
-    categoryId: {
+    category: { // ← changed
       type: Types.ObjectId,
       ref: "Category",
       required: true,
@@ -21,9 +21,11 @@ const bookSchema = new Schema(
 
     createdBy: {
       type: Types.ObjectId,
-      ref: "User", 
+      ref: "User",
       required: true,
     },
+
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

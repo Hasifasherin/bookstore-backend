@@ -1,3 +1,4 @@
+
 import { Schema, model, Types } from "mongoose";
 
 const sliderSchema = new Schema({
