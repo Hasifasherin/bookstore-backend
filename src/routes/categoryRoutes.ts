@@ -1,4 +1,3 @@
-
 import { Router } from "express";
 import {
   createCategory,
@@ -6,22 +5,21 @@ import {
   updateCategory,
   deleteCategory,
 } from "../controllers/categoryController";
-import { protect, adminOrSeller } from "../middleware/auth";
+import { protect, adminOnly } from "../middleware/auth";
 
 const router = Router();
 
-
+/* ---------------- ADMIN ONLY ---------------- */
 // Create category
-router.post("/", protect, adminOrSeller, createCategory);
+router.post("/", protect, adminOnly, createCategory);
 
 // Update category
-router.put("/:id", protect, adminOrSeller, updateCategory);
+router.put("/:id", protect, adminOnly, updateCategory);
 
 // Delete category
-router.delete("/:id", protect, adminOrSeller, deleteCategory);
+router.delete("/:id", protect, adminOnly, deleteCategory);
 
-
-
+/* ---------------- PUBLIC ---------------- */
 // Get all categories
 router.get("/", getAllCategories);
 

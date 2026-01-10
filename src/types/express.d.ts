@@ -1,11 +1,12 @@
-import "express";
+import { IUser } from "../models/User";
 
 declare global {
   namespace Express {
     interface Request {
       user?: {
         id: string;
-        role: "admin" | "seller" | "buyer"; 
+        role: "admin" | "seller" | "buyer";
+        isBlocked: boolean;
       };
     }
   }

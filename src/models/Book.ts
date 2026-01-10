@@ -1,14 +1,29 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types, Document } from "mongoose";
 
-const bookSchema = new Schema(
+export interface IBook extends Document {
+  title: string;
+  authorName: string;
+  categoryId: Types.ObjectId;
+  description?: string;
+  publisher?: string;
+  price: number;
+  discount: number;
+  coverImage: string;
+  createdBy: Types.ObjectId;
+  isDeleted: boolean;
+}
+
+const bookSchema = new Schema<IBook>(
   {
     title: { type: String, required: true },
     authorName: { type: String, required: true },
 
-    category: { // ← changed
+    // ✅ STANDARDIZED FIELD NAME
+    categoryId: {
       type: Types.ObjectId,
       ref: "Category",
       required: true,
+      index: true,
     },
 
     description: { type: String },
@@ -23,11 +38,16 @@ const bookSchema = new Schema(
       type: Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
 
-    isDeleted: { type: Boolean, default: false },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
   { timestamps: true }
 );
 
-export default model("Book", bookSchema);
+export default model<IBook>("Book", bookSchema);

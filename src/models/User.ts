@@ -1,4 +1,3 @@
-
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IUser extends Document {
@@ -10,6 +9,7 @@ export interface IUser extends Document {
   dob: Date;
   password: string;
   role: "buyer" | "seller" | "admin";
+  isBlocked: boolean;
 }
 
 const userSchema = new Schema<IUser>(
@@ -21,7 +21,17 @@ const userSchema = new Schema<IUser>(
     gender: { type: String, enum: ["m", "f"], required: true },
     dob: { type: Date, required: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ["buyer", "seller", "admin"], default: "buyer" }
+
+    role: {
+      type: String,
+      enum: ["buyer", "seller", "admin"],
+      default: "buyer"
+    },
+
+    isBlocked: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );

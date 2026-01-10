@@ -5,6 +5,11 @@ export const createAdmin = async () => {
   const adminEmail = process.env.ADMIN_EMAIL!;
   const adminPassword = process.env.ADMIN_PASSWORD!;
 
+  if (!adminEmail || !adminPassword) {
+    console.warn("Admin email or password not set in environment variables");
+    return;
+  }
+
   const existingAdmin = await User.findOne({ email: adminEmail });
 
   if (!existingAdmin) {
@@ -19,6 +24,7 @@ export const createAdmin = async () => {
       dob: new Date("1990-01-01"),
       password: hashedPassword,
       role: "admin",
+      isBlocked: false, 
     });
 
     console.log("Predefined admin created");
